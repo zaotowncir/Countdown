@@ -2,14 +2,17 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Countdown Timer</title>
     <style>
-        body { font-family: sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; }
-        .date-target { font-size: 4rem; font-weight: bold; }
-        .label { font-size: 3rem; margin: 20px 0; }
-        .countdown { font-size: 15rem; color: #d32f2f; font-weight: bold; }
-        .today { font-size: 2.5rem; margin-top: 50px; }
+        body { font-family: sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; background-color: white; overflow: hidden; }
+        .date-target { font-size: 5vh; font-weight: bold; }
+        .label { font-size: 4vh; margin: 2vh 0; font-weight: bold; }
+        .countdown { font-size: 30vh; color: #d32f2f; font-weight: bold; line-height: 1; }
+        .today { font-size: 4vh; margin-top: 5vh; font-weight: bold; border-top: 1px solid #ccc; padding-top: 2vh; width: 80%; margin-left: 10%; }
     </style>
 </head>
 <body>
@@ -21,24 +24,21 @@
 
     <script>
         function updateCountdown() {
-            const target = new Date(2027, 3, 1); // April is index 3
+            const target = new Date(2027, 3, 1);
             const now = new Date();
-            
-            // Calculate difference in time
             const diff = target - now;
             const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
             document.getElementById('days').innerText = (daysLeft > 0 ? daysLeft : 0) + "日";
             
-            // Format current date in Japanese style
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            // Note: For Reiwa conversion, you'd use a library or simple math (Year - 2018)
+            // Reiwa calculation: 2026 is Reiwa 8
             let reiwaYear = now.getFullYear() - 2018;
             document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth()+1}月${now.getDate()}日`;
         }
 
         updateCountdown();
-        setInterval(updateCountdown, 3600000); // Update every hour
+        // This makes it change automatically every minute
+        setInterval(updateCountdown, 60000); 
     </script>
 </body>
 </html>
