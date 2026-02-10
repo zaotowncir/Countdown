@@ -2,79 +2,25 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>蔵王中学校 カウントダウン</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
     <style>
-        body {
-            font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", "serif";
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 100vh;
-            margin: 0;
-            background-color: #ffffff;
-            color: #333;
-            overflow: hidden;
-        }
-        .header {
-            font-size: 6vh;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .label {
-            font-size: 5vh;
-            line-height: 1.4;
-            font-weight: bold;
-        }
-        .countdown-container {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-        }
-        .days-number {
-            font-size: 35vh; /* Huge red numbers */
-            color: #e60012;
-            font-weight: 900;
-            line-height: 1;
-        }
-        .days-text {
-            font-size: 10vh;
-            font-weight: bold;
-            color: #e60012;
-            margin-left: 10px;
-        }
-        .footer {
-            font-size: 4vh;
-            border-top: 2px solid #333;
-            padding-top: 20px;
-            margin: 0 10%;
-            font-weight: bold;
-        }
-        .current-date {
-            font-size: 6vh;
-            display: block;
-            margin-top: 10px;
-        }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; background-color: white; }
+        .date-target { font-size: 5vw; font-weight: bold; margin-bottom: 20px; }
+        .label { font-size: 4vw; line-height: 1.2; margin-bottom: 20px; }
+        .countdown { font-size: 25vw; color: #D32F2F; font-weight: bold; line-height: 1; }
+        .today-box { margin-top: 60px; font-size: 3vw; font-weight: bold; }
+        .today-date { font-size: 4.5vw; }
     </style>
 </head>
 <body>
 
-    <div class="header">令和9年4月1日</div>
-
-    <div class="label">
-        蔵王中学校開校<br>
-        まで、あと
-    </div>
-
-    <div class="countdown-container">
-        <span id="days" class="days-number">---</span>
-        <span class="days-text">日</span>
-    </div>
-
-    <div class="footer">
-        本日は
-        <span id="current-date" class="current-date"></span>
+    <div class="date-target">令和9年4月1日</div>
+    <div class="label">蔵王中学校開校<br>まで、あと</div>
+    <div id="days" class="countdown">---日</div>
+    <div class="today-box">
+        本日は<br>
+        <span id="current-date" class="today-date"></span>
     </div>
 
     <script>
@@ -82,22 +28,19 @@
             const target = new Date(2027, 3, 1); // April 1, 2027
             const now = new Date();
             
-            // Calculate days (Midnight to midnight)
+            // Calculate days remaining
             const diff = target - now;
             const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('days').innerText = daysLeft;
+            document.getElementById('days').innerText = daysLeft + "日";
             
-            // Format Reiwa Date
-            // 2026 is Reiwa 8, 2027 is Reiwa 9
+            // Format current date (Reiwa 8 for 2026)
             const reiwaYear = now.getFullYear() - 2018;
             const month = now.getMonth() + 1;
             const date = now.getDate();
             document.getElementById('current-date').innerText = `令和${reiwaYear}年${month}月${date}日`;
         }
-        
         update();
-        // Update every 30 minutes to keep it fresh
-        setInterval(update, 1800000);
+        setInterval(update, 60000); // Check every minute
     </script>
 </body>
 </html>
