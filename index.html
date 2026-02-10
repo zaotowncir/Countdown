@@ -3,44 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown</title>
+    <title>蔵王中学校 カウントダウン</title>
     <style>
-        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; background-color: white; }
-        .date-target { font-size: 5vw; font-weight: bold; margin-bottom: 20px; }
-        .label { font-size: 4vw; line-height: 1.2; margin-bottom: 20px; }
-        .countdown { font-size: 25vw; color: #D32F2F; font-weight: bold; line-height: 1; }
-        .today-box { margin-top: 60px; font-size: 3vw; font-weight: bold; }
-        .today-date { font-size: 4.5vw; }
+        /* This prevents scrolling and keeps everything in one frame */
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            overflow: hidden; 
+            background-color: white;
+            font-family: sans-serif;
+        }
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+        }
+        .header { font-size: 5vh; font-weight: bold; margin-bottom: 2vh; }
+        .label { font-size: 4vh; margin-bottom: 2vh; line-height: 1.2; }
+        .countdown { 
+            font-size: 22vh; /* Adjusted to prevent zooming/overflow */
+            color: #d32f2f; 
+            font-weight: bold; 
+            line-height: 1;
+        }
+        .today { 
+            font-size: 4vh; 
+            margin-top: 4vh; 
+            padding-top: 2vh; 
+            border-top: 2px solid #333; 
+            width: 80%; 
+        }
     </style>
 </head>
 <body>
 
-    <div class="date-target">令和9年4月1日</div>
+    <div class="header">令和9年4月1日</div>
     <div class="label">蔵王中学校開校<br>まで、あと</div>
     <div id="days" class="countdown">---日</div>
-    <div class="today-box">
-        本日は<br>
-        <span id="current-date" class="today-date"></span>
-    </div>
+    <div class="today">本日は<br><span id="current-date"></span></div>
 
     <script>
         function update() {
-            const target = new Date(2027, 3, 1); // April 1, 2027
+            const target = new Date(2027, 3, 1);
             const now = new Date();
-            
-            // Calculate days remaining
             const diff = target - now;
             const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('days').innerText = daysLeft + "日";
             
-            // Format current date (Reiwa 8 for 2026)
-            const reiwaYear = now.getFullYear() - 2018;
-            const month = now.getMonth() + 1;
-            const date = now.getDate();
-            document.getElementById('current-date').innerText = `令和${reiwaYear}年${month}月${date}日`;
+            // Updates the number
+            document.getElementById('days').innerText = (daysLeft > 0 ? daysLeft : 0) + "日";
+            
+            // Reiwa 8 for 2026
+            let reiwaYear = now.getFullYear() - 2018;
+            document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth()+1}月${now.getDate()}日`;
         }
+
         update();
-        setInterval(update, 60000); // Check every minute
+        // Changes automatically every minute so it's always accurate
+        setInterval(update, 60000); 
     </script>
 </body>
 </html>
