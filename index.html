@@ -4,41 +4,62 @@
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Countdown Timer</title>
+    <title>蔵王中学校 カウントダウン</title>
     <style>
-        body { font-family: sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; background-color: white; overflow: hidden; }
-        .date-target { font-size: 5vh; font-weight: bold; }
-        .label { font-size: 4vh; margin: 2vh 0; font-weight: bold; }
-        .countdown { font-size: 30vh; color: #d32f2f; font-weight: bold; line-height: 1; }
-        .today { font-size: 4vh; margin-top: 5vh; font-weight: bold; border-top: 1px solid #ccc; padding-top: 2vh; width: 80%; margin-left: 10%; }
+        body {
+            font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", "serif";
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+            color: #333;
+            overflow: hidden;
+        }
+        .header { font-size: 6vh; font-weight: bold; margin-top: 20px; }
+        .label { font-size: 5vh; line-height: 1.4; font-weight: bold; }
+        .days-number { font-size: 35vh; color: #e60012; font-weight: 900; line-height: 1; }
+        .days-text { font-size: 10vh; font-weight: bold; color: #e60012; }
+        .footer { font-size: 4vh; border-top: 2px solid #333; padding-top: 20px; margin: 0 10%; font-weight: bold; }
+        .current-date { font-size: 6vh; display: block; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="date-target">令和9年4月1日</div>
+    <div class="header">令和9年4月1日</div>
     <div class="label">蔵王中学校開校<br>まで、あと</div>
-    <div id="days" class="countdown">---日</div>
-    <div class="today">本日は<br><span id="current-date"></span></div>
+    <div>
+        <span id="days" class="days-number">---</span>
+        <span class="days-text">日</span>
+    </div>
+    <div class="footer">
+        本日は
+        <span id="current-date" class="current-date"></span>
+    </div>
 
     <script>
-        function updateCountdown() {
+        function update() {
             const target = new Date(2027, 3, 1);
             const now = new Date();
             const diff = target - now;
             const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-
-            document.getElementById('days').innerText = (daysLeft > 0 ? daysLeft : 0) + "日";
+            document.getElementById('days').innerText = daysLeft > 0 ? daysLeft : 0;
             
-            // Reiwa calculation: 2026 is Reiwa 8
-            let reiwaYear = now.getFullYear() - 2018;
-            document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth()+1}月${now.getDate()}日`;
-        }
+            const reiwaYear = now.getFullYear() - 2018;
+            document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth() + 1}月${now.getDate()}日`;
 
-        updateCountdown();
-        // This makes it change automatically every minute
-        setInterval(updateCountdown, 60000); 
+            // Auto-refresh the page at 00:01 AM to update the day
+            if (now.getHours() === 0 && now.getMinutes() === 1) {
+                location.reload();
+            }
+        }
+        
+        update();
+        setInterval(update, 60000); // Check every minute
     </script>
 </body>
 </html>
