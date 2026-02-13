@@ -2,14 +2,43 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <title>蔵王中学校 カウントダウン</title>
     <style>
-        body { font-family: sans-serif; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100vh; margin: 0; }
-        .date-target { font-size: 4rem; font-weight: bold; }
-        .label { font-size: 3rem; margin: 20px 0; }
-        .countdown { font-size: 15rem; color: #d32f2f; font-weight: bold; }
-        .today { font-size: 2.5rem; margin-top: 50px; }
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            overflow: hidden; 
+            background-color: white; 
+        }
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            /* Using the high-quality iPad Japanese font */
+            font-family: "Hiragino Mincho ProN", "MS Mincho", serif; 
+        }
+        .date-target { font-size: 5vh; font-weight: bold; margin-bottom: 2vh; }
+        .label { font-size: 4vh; margin-bottom: 2vh; font-weight: bold; }
+        .countdown { 
+            font-size: 22vh; 
+            color: #d32f2f; 
+            font-weight: bold; 
+            line-height: 1;
+        }
+        .today { 
+            font-size: 4vh; 
+            margin-top: 4vh; 
+            border-top: 2px solid #333; 
+            width: 80%; 
+            padding-top: 2vh;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -20,25 +49,26 @@
     <div class="today">本日は<br><span id="current-date"></span></div>
 
     <script>
-        function updateCountdown() {
-            const target = new Date(2027, 3, 1); // April is index 3
+        function update() {
+            // Month 3 is April in JavaScript
+            const target = new Date(2027, 3, 1); 
             const now = new Date();
             
-            // Calculate difference in time
+            // Math: (Target - Now) / Milliseconds in one day
             const diff = target - now;
-            const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-
+            const daysLeft = Math.ceil(diff / 86400000);
+            
+            // Updates the display
             document.getElementById('days').innerText = (daysLeft > 0 ? daysLeft : 0) + "日";
             
-            // Format current date in Japanese style
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            // Note: For Reiwa conversion, you'd use a library or simple math (Year - 2018)
+            // Reiwa 8 calculation for 2026
             let reiwaYear = now.getFullYear() - 2018;
             document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth()+1}月${now.getDate()}日`;
         }
 
-        updateCountdown();
-        setInterval(updateCountdown, 3600000); // Update every hour
+        update();
+        // Check the time every 60 seconds to flip at midnight
+        setInterval(update, 60000); 
     </script>
 </body>
 </html>
