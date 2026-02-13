@@ -2,66 +2,102 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>蔵王中学校 カウントダウン</title>
     <style>
-        /* This prevents scrolling and keeps everything in one frame */
-        html, body { 
-            height: 100%; 
-            margin: 0; 
-            overflow: hidden; 
-            background-color: white;
-            font-family: sans-serif;
+        body {
+            font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", "serif";
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+            color: #333;
+            overflow: hidden;
         }
-        body { 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
+        .header {
+            font-size: 6vh;
+            font-weight: bold;
+            margin-top: 20px;
         }
-        .header { font-size: 5vh; font-weight: bold; margin-bottom: 2vh; }
-        .label { font-size: 4vh; margin-bottom: 2vh; line-height: 1.2; }
-        .countdown { 
-            font-size: 22vh; /* Adjusted to prevent zooming/overflow */
-            color: #d32f2f; 
-            font-weight: bold; 
+        .label {
+            font-size: 5vh;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+        .countdown-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+        .days-number {
+            font-size: 35vh; /* Huge red numbers */
+            color: #e60012;
+            font-weight: 900;
             line-height: 1;
         }
-        .today { 
-            font-size: 4vh; 
-            margin-top: 4vh; 
-            padding-top: 2vh; 
-            border-top: 2px solid #333; 
-            width: 80%; 
+        .days-text {
+            font-size: 10vh;
+            font-weight: bold;
+            color: #e60012;
+            margin-left: 10px;
+        }
+        .footer {
+            font-size: 4vh;
+            border-top: 2px solid #333;
+            padding-top: 20px;
+            margin: 0 10%;
+            font-weight: bold;
+        }
+        .current-date {
+            font-size: 6vh;
+            display: block;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="header">令和9年4月1日</div>
-    <div class="label">蔵王中学校開校<br>まで、あと</div>
-    <div id="days" class="countdown">---日</div>
-    <div class="today">本日は<br><span id="current-date"></span></div>
+
+    <div class="label">
+        蔵王中学校開校<br>
+        まで、あと
+    </div>
+
+    <div class="countdown-container">
+        <span id="days" class="days-number">---</span>
+        <span class="days-text">日</span>
+    </div>
+
+    <div class="footer">
+        本日は
+        <span id="current-date" class="current-date"></span>
+    </div>
 
     <script>
         function update() {
-            const target = new Date(2027, 3, 1);
+            const target = new Date(2027, 3, 1); // April 1, 2027
             const now = new Date();
+            
+            // Calculate days (Midnight to midnight)
             const diff = target - now;
             const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days').innerText = daysLeft;
             
-            // Updates the number
-            document.getElementById('days').innerText = (daysLeft > 0 ? daysLeft : 0) + "日";
-            
-            // Reiwa 8 for 2026
-            let reiwaYear = now.getFullYear() - 2018;
-            document.getElementById('current-date').innerText = `令和${reiwaYear}年${now.getMonth()+1}月${now.getDate()}日`;
+            // Format Reiwa Date
+            // 2026 is Reiwa 8, 2027 is Reiwa 9
+            const reiwaYear = now.getFullYear() - 2018;
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            document.getElementById('current-date').innerText = `令和${reiwaYear}年${month}月${date}日`;
         }
-
+        
         update();
-        // Changes automatically every minute so it's always accurate
-        setInterval(update, 60000); 
+        // Update every 30 minutes to keep it fresh
+        setInterval(update, 1800000);
     </script>
 </body>
 </html>
